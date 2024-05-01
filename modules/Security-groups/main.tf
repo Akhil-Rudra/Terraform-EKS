@@ -36,7 +36,7 @@ resource "aws_security_group" "eks_security_group" {
   }
 
   tags = {
-    Name = "${var.cluster_name}-EKS-security-group"
+    Name = "${var.cluster_name}-EKS-security-group"   #clusterEKS-EKS-security-group
     Env  = var.env
     Type = var.type
   }
