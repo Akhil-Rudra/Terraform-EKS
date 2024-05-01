@@ -1,12 +1,12 @@
 # Creating VPC
 resource "aws_vpc" "eks_vpc" {
-  cidr_block           = var.vpc_cidr
+  cidr_block           = var.vpc_cidr    #10.0.0.0/16
   instance_tenancy     = "default"
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.cluster_name}-vpc"
-    Env  = var.env
+    Name = "${var.cluster_name}-vpc"     #clusterEKS-vpc
+    Env  = var.env                       
     Type = var.type
   }
 }
@@ -16,7 +16,7 @@ resource "aws_internet_gateway" "eks_internet_gateway" {
   vpc_id = aws_vpc.eks_vpc.id
 
   tags = {
-    Name = "${var.cluster_name}-igw"
+    Name = "${var.cluster_name}-igw"    #clusterEKS-igw
     Env  = var.env
     Type = var.type
   }
@@ -28,7 +28,7 @@ data "aws_availability_zones" "available_zones" {}
 # Creating Public Subnet AZ1
 resource "aws_subnet" "public_subnet_az1" {
   vpc_id                  = aws_vpc.eks_vpc.id
-  cidr_block              = var.public_subnet_az1_cidr
+  cidr_block              = var.public_subnet_az1_cidr      #10.0.1.0/24
   availability_zone       = data.aws_availability_zones.available_zones.names[0]
   map_public_ip_on_launch = true
 
@@ -42,7 +42,7 @@ resource "aws_subnet" "public_subnet_az1" {
 # Creating Public Subnet AZ2
 resource "aws_subnet" "public_subnet_az2" {
   vpc_id                  = aws_vpc.eks_vpc.id
-  cidr_block              = var.public_subnet_az2_cidr
+  cidr_block              = var.public_subnet_az2_cidr      #10.0.2.0/24
   availability_zone       = data.aws_availability_zones.available_zones.names[1]
   map_public_ip_on_launch = true
 
